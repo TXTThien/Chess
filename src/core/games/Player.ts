@@ -1,6 +1,6 @@
 class Player{
-    name: string;
-    isRed: boolean;
+    readonly name: string;
+    readonly isRed: boolean;
 
     constructor(name: string, isRed: boolean) {
         this.name = name;

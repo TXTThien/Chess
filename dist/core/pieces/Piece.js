@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Piece = /** @class */ (function () {
-    function Piece(position, moveStrategy, isRed) {
-        this.isRed = true;
+    function Piece(position, isRed, moveStrategy) {
         this.position = position;
-        this.moveStrategy = moveStrategy;
         this.isRed = isRed;
+        this.moveStrategy = moveStrategy;
     }
     Piece.prototype.getPosition = function () {
         return this.position;
@@ -16,8 +15,11 @@ var Piece = /** @class */ (function () {
     Piece.prototype.isRedPiece = function () {
         return this.isRed;
     };
-    Piece.prototype.getAvailableMoves = function () {
-        return this.moveStrategy.getAvailableMoves(this.position, this.isRed);
+    Piece.prototype.getMoveStrategy = function () {
+        return this.moveStrategy;
+    };
+    Piece.prototype.getAvailableMoves = function (board) {
+        return this.moveStrategy.getAvailableMoves(this.position, board, this.isRed);
     };
     return Piece;
 }());

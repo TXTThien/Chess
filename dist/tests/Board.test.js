@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Position_1 = require("../core/boards/Position");
+var Chariot_1 = require("../core/pieces/Chariot");
+var Board_1 = require("../core/boards/Board");
+var General_1 = require("../core/pieces/General");
+var board = new Board_1.default([], 10);
+var xe = new Chariot_1.default(new Position_1.default(0, 0), true);
+var tuong = new General_1.default(new Position_1.default(0, 0), false);
+board.setPiece(new Position_1.default(0, 0), tuong);
+board.printBoard();

@@ -17,38 +17,17 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Piece_1 = require("./Piece");
 var Position_1 = require("../boards/Position");
-var GeneralMoveStrategy = /** @class */ (function () {
-    function GeneralMoveStrategy() {
-    }
-    GeneralMoveStrategy.prototype.getAvailableMoves = function (position, isRed) {
-        var moves = [];
-        var directions = [
-            { x: 0, y: 1 },
-            { x: 0, y: -1 },
-            { x: 1, y: 0 },
-            { x: -1, y: 0 },
-        ];
-        for (var _i = 0, directions_1 = directions; _i < directions_1.length; _i++) {
-            var dir = directions_1[_i];
-            var newX = position.x + dir.x;
-            var newY = position.y + dir.y;
-            if (isRed)
-                if (newX >= 4 && newX <= 6 && newY >= 1 && newY <= 3)
-                    moves.push(new Position_1.default(newX, newY));
-                else if (newX >= 4 && newX <= 6 && newY >= 8 && newY <= 10)
-                    moves.push(new Position_1.default(newX, newY));
-        }
-        return moves;
-    };
-    return GeneralMoveStrategy;
-}());
+var GeneralMovement_1 = require("../moves/PiecesMovement/GeneralMovement");
 var General = /** @class */ (function (_super) {
     __extends(General, _super);
     function General(position, isRed) {
-        return _super.call(this, position, new GeneralMoveStrategy(), isRed) || this;
+        return _super.call(this, position, isRed, new GeneralMovement_1.default()) || this;
     }
     General.prototype.getName = function () {
-        return "General (Tướng)";
+        return "General";
+    };
+    General.prototype.getClone = function () {
+        return new General(new Position_1.default(this.getPosition().x, this.getPosition().y), this.isRedPiece());
     };
     return General;
 }(Piece_1.default));

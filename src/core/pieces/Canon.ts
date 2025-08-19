@@ -1,33 +1,21 @@
 import Piece from "./Piece";
 import Position from "../boards/Position";
-import MoveStrategy from "../moves/MoveStrategy";
-
-class CanonMoveStrategy implements MoveStrategy {
-  getAvailableMoves(position: Position, isRed: boolean): Position[] {
-    const moves: Position[] = [];
-    for (let i = 1; i <= 9; i++) {
-      if (i !== position.x) {
-        moves.push(new Position(i, position.y));
-      }
-    }
-
-    for (let j = 1; j <= 10; j++) {
-      if (j !== position.y) {
-        moves.push(new Position(position.x, j));
-      }
-    }
-
-    return moves;
-  }
-}
+import CanonMoveStrategy from "../moves/PiecesMovement/CanonMovement";
 
 class Canon extends Piece {
   constructor(position: Position, isRed: boolean) {
-    super(position, new CanonMoveStrategy(), isRed);
+    super(position, isRed, new CanonMoveStrategy());
   }
 
   getName(): string {
-    return "Canon (Pháo)";
+    return "Canon";
+  }
+
+  getClone(): Piece {
+    return new Canon(
+      new Position(this.getPosition().x, this.getPosition().y),
+      this.isRedPiece()
+    );
   }
 }
 

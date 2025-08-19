@@ -11,6 +11,9 @@ var Position = /** @class */ (function () {
     Position.prototype.toString = function () {
         return "(".concat(this.x, ", ").concat(this.y, ")");
     };
+    Position.prototype.clone = function () {
+        return new Position(this.x, this.y);
+    };
     return Position;
 }());
 exports.default = Position;

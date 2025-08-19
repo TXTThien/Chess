@@ -1,34 +1,42 @@
+// Piece.ts
 import Position from "../boards/Position";
+import Board from "../boards/Board";
 import MoveStrategy from "../moves/MoveStrategy";
+export default abstract class Piece {
+  protected position: Position;
+  protected isRed: boolean;
+  protected moveStrategy!: MoveStrategy;
 
-abstract class Piece {
-    protected position: Position;
-    protected moveStrategy: MoveStrategy;
-    protected isRed: boolean = true;
+  constructor(position: Position, isRed: boolean, moveStrategy: MoveStrategy) {
+    this.position = position;
+    this.isRed = isRed;
+    this.moveStrategy = moveStrategy;
+  }
 
-    constructor(position: Position, moveStrategy: MoveStrategy, isRed: boolean) {
-        this.position = position;
-        this.moveStrategy = moveStrategy;
-        this.isRed = isRed;
-    }
+  getPosition(): Position {
+    return this.position;
+  }
 
-    getPosition(): Position {
-        return this.position;
-    }
+  setPosition(position: Position): void {
+    this.position = position;
+  }
 
-    setPosition(position: Position): void {
-        this.position = position;
-    }
+  isRedPiece(): boolean {
+    return this.isRed;
+  }
 
-    isRedPiece(): boolean {
-        return this.isRed;
-    }
+  getMoveStrategy(): MoveStrategy {
+    return this.moveStrategy;
+  }
+  
+  abstract getName(): string;
+  abstract getClone(): Piece;
 
-    abstract getName(): string;
-
-    getAvailableMoves(): Position[]{
-        return this.moveStrategy.getAvailableMoves(this.position, this.isRed);
-    }
+  getAvailableMoves(board: Board): Position[] {
+    return this.moveStrategy.getAvailableMoves(
+      this.position,
+      board,
+      this.isRed
+    );
+  }
 }
-
-export default Piece;

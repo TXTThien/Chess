@@ -15,35 +15,21 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+// Horse.ts
 var Piece_1 = require("./Piece");
 var Position_1 = require("../boards/Position");
-var ChariotMoveStrategy = /** @class */ (function () {
-    function ChariotMoveStrategy() {
+var HorseMovement_1 = require("../moves/PiecesMovement/HorseMovement");
+var Horse = /** @class */ (function (_super) {
+    __extends(Horse, _super);
+    function Horse(position, isRed) {
+        return _super.call(this, position, isRed, new HorseMovement_1.default()) || this;
     }
-    ChariotMoveStrategy.prototype.getAvailableMoves = function (position, isRed) {
-        var moves = [];
-        for (var i = 1; i < 9; i++) {
-            if (i !== position.x) {
-                moves.push(new Position_1.default(i, position.y));
-            }
-        }
-        for (var j = 1; j < 10; j++) {
-            if (j !== position.y) {
-                moves.push(new Position_1.default(position.x, j));
-            }
-        }
-        return moves;
+    Horse.prototype.getName = function () {
+        return "Horse";
     };
-    return ChariotMoveStrategy;
-}());
-var Chariot = /** @class */ (function (_super) {
-    __extends(Chariot, _super);
-    function Chariot(position, isRed) {
-        return _super.call(this, position, new ChariotMoveStrategy(), isRed) || this;
-    }
-    Chariot.prototype.getName = function () {
-        return "Chariot (Xe)";
+    Horse.prototype.getClone = function () {
+        return new Horse(new Position_1.default(this.getPosition().x, this.getPosition().y), this.isRedPiece());
     };
-    return Chariot;
+    return Horse;
 }(Piece_1.default));
-exports.default = Chariot;
+exports.default = Horse;

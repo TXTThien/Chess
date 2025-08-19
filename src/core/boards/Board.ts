@@ -5,17 +5,19 @@ class Board {
   private cells: Cell[][];
   private size: number;
 
-  constructor(cells: Cell[][], size: number) {
+  constructor(size: number, cells?: Cell[][]) {
     this.size = size;
-    this.cells = this.initializeBoard();
+    this.cells = cells ?? this.initializeBoard();
   }
-
+  public getSize(): number {
+    return this.size;
+  }
   private initializeBoard(): Cell[][] {
     const board: Cell[][] = [];
     for (let i = 0; i < this.size; i++) {
       const row: Cell[] = [];
       for (let j = 0; j < this.size; j++) {
-        row.push(new Cell(new Position(i, j)));
+        row.push(new Cell(new Position(j, i)));
       }
       board.push(row);
     }
@@ -31,28 +33,35 @@ class Board {
     ) {
       return null;
     }
-    return this.cells[position.x][position.y];
+    return this.cells[position.y][position.x];
   }
-
-  public setPiece(position: Position, piece: Piece): boolean {
+  public setPiece(position: Position, piece: Piece): void {
     const cell = this.getCell(position);
-    if (cell && cell.isEmpty()) {
+    if (cell) {
+      piece.setPosition(position);
       cell.setPiece(piece);
-      return true;
     }
-    return false;
   }
-
   public removePiece(position: Position): void {
     const cell = this.getCell(position);
-    if (cell && !cell.isEmpty()) cell.setPiece(null);
+    if (cell && !cell.isEmpty()) {
+      const piece = cell.getPiece();
+      if (piece) {
+        piece.setPosition(new Position(-1, -1));
+      }
+      cell.setPiece(null);
+    }
   }
 
   public printBoard(): void {
     for (let i = 0; i < this.size; i++) {
-      const row = this.cells[i].map((cell) =>
-        cell.isEmpty() ? "." : cell.getPiece()?.getName().charAt(0) ?? "?"
-      );
+      const row = this.cells[i].map((cell) => {
+        const piece = cell.getPiece();
+        if (!piece) return ".";
+        return piece.isRedPiece()
+          ? piece.getName().charAt(0).toUpperCase()
+          : piece.getName().charAt(0).toLowerCase();
+      });
       console.log(row.join(" "));
     }
   }
